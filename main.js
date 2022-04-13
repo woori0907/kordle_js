@@ -1,11 +1,21 @@
-const wordInputs = document.querySelectorAll('.word-input');
+const wordInputs = document.querySelectorAll('input');
 const wordSubmit = document.querySelector('.word-submit');
 console.log(wordInputs);
 const ANSWER = ['ㄱ','ㅗ','ㅂ','ㅏ','ㅣ','ㄱ'];
 
+let count = 0;
+
+const MAX_COUNT = 5;
+
+const createNewLine = (index) =>{
+    for(i = index; i < index+6; i++){
+        wordInputs[i].classList.add('word-input');
+    }
+}
+
 const onSubmitAnswer = () =>{
-    console.log(wordInputs);
-    const submitAnswer = [];
+    let submitAnswer = [];
+    const wordInputs = document.querySelectorAll('.word-input');
     wordInputs.forEach(wordInput =>{
         submitAnswer.push(wordInput.value);
     });
@@ -20,27 +30,33 @@ const onSubmitAnswer = () =>{
         else{
             wordInputs[i].classList.add("wrong");
         }
+        wordInputs[i].removeEventListener('keyup', checkCharacter);
+        wordInputs[i].setAttribute('disable', '');
+        wordInputs[i].classList.remove('word-input');
     }
+    if(count < MAX_COUNT)
+    {
+        count++;
+    }
+    console.log(count)
+    createNewLine(6*count);
+    submitAnswer=[];
+}
+
+const checkCharacter = (event) => {
+
+    event.preventDefault();
+        console.log(event);
+        if(event.keyCode === 8){
+            event.target.previousElementSibling.focus();
+        }
+        else if(event.keyCode !== 16){
+            event.target.nextElementSibling.focus();
+        }
 }
 
 wordInputs.forEach(wordInput => {
-    wordInput.addEventListener('keyup', (event) => {
-        event.preventDefault();
-        console.log(event.keyCode);
-        if(event.keyCode === 229){
-            if(event.keyCode === 16){
-                wordInput.textContent='';
-                return;
-            }
-            wordInput.nextElementSibling.focus();
-        }
-        if(event.keyCode === 8){
-            wordInput.previousElementSibling.focus();
-        }
-        if(event.keyCode === 16){
-            wordInput.textContent='';
-        }
-    });
+    wordInput.addEventListener('keyup', checkCharacter);
 });
 
 wordSubmit.addEventListener('click', onSubmitAnswer);
