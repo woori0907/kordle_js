@@ -1,6 +1,6 @@
 const wordInputs = document.querySelectorAll('input');
+const wordInputButton = document.querySelectorAll('.keyboard-item');
 const wordSubmit = document.querySelector('.word-submit');
-console.log(wordInputs);
 const ANSWER = ['ㄱ','ㅗ','ㅂ','ㅏ','ㅣ','ㄱ'];
 
 let count = 0;
@@ -11,6 +11,7 @@ const createNewLine = (index) =>{
     for(i = index; i < index+6; i++){
         wordInputs[i].classList.add('word-input');
     }
+    wordInputs[index].focus();
 }
 
 const onSubmitAnswer = () =>{
@@ -38,7 +39,6 @@ const onSubmitAnswer = () =>{
     {
         count++;
     }
-    console.log(count)
     createNewLine(6*count);
     submitAnswer=[];
 }
@@ -54,6 +54,22 @@ const checkCharacter = (event) => {
             event.target.nextElementSibling.focus();
         }
 }
+
+wordInputButton.forEach(wordInput =>{
+    wordInput.addEventListener('click', (event)=>{
+        const wordInputs = document.querySelectorAll('.word-input');
+        console.log(wordInputs);
+        for(i = 0; i < wordInputs.length; i++){
+            console.log(wordInputs[i].value);
+           if(wordInputs[i].value == ''){
+            console.log('true!');
+                wordInputs[i].value = event.target.textContent;
+                break;
+           }
+           
+        }
+    })
+})
 
 wordInputs.forEach(wordInput => {
     wordInput.addEventListener('keyup', checkCharacter);
