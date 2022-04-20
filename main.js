@@ -1,14 +1,19 @@
+import { WORDS } from './data/wordlist.js';
+
 const wordInputs = document.querySelectorAll('input');
 const wordInputButton = document.querySelectorAll('.keyboard-item');
 const wordSubmit = document.querySelector('.word-submit');
-const ANSWER = ['ㄱ','ㅗ','ㅂ','ㅏ','ㅣ','ㄱ'];
+const ANSWER = WORDS[Math.floor(Math.random() * (WORDS.length - 0) + 0)];
+
+console.log(ANSWER);
+
 
 let count = 0;
 
 const MAX_COUNT = 5;
 
 const createNewLine = (index) =>{
-    for(i = index; i < index+6; i++){
+    for(let i = index; i < index+5; i++){
         wordInputs[i].classList.add('word-input');
     }
     wordInputs[index].focus();
@@ -20,7 +25,11 @@ const onSubmitAnswer = () =>{
     wordInputs.forEach(wordInput =>{
         submitAnswer.push(wordInput.value);
     });
-    for(i = 0; i < 6; i++)
+    if(!WORDS.includes(submitAnswer.join(''))){
+        alert('올바른 단어를 입력해주세요');
+        return;
+    }
+    for(let i = 0; i < 5; i++)
     {
         if(submitAnswer[i] === ANSWER[i]){
             wordInputs[i].classList.add("correct");
@@ -39,7 +48,7 @@ const onSubmitAnswer = () =>{
     {
         count++;
     }
-    createNewLine(6*count);
+    createNewLine(5*count);
     submitAnswer=[];
 }
 
@@ -59,7 +68,7 @@ wordInputButton.forEach(wordInput =>{
     wordInput.addEventListener('click', (event)=>{
         const wordInputs = document.querySelectorAll('.word-input');
         console.log(wordInputs);
-        for(i = 0; i < wordInputs.length; i++){
+        for(let i = 0; i < wordInputs.length; i++){
             console.log(wordInputs[i].value);
            if(wordInputs[i].value == ''){
             console.log('true!');
@@ -70,6 +79,7 @@ wordInputButton.forEach(wordInput =>{
         }
     })
 })
+
 
 wordInputs.forEach(wordInput => {
     wordInput.addEventListener('keyup', checkCharacter);

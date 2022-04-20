@@ -8,6 +8,9 @@
     --font-opensans :'Open Sans', sans-serif;
 }
 
+section{
+    margin-bottom: 0.4em;
+}
 
 input:focus{
     outline: none;
