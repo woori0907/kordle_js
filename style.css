@@ -3,6 +3,7 @@
     --color-approached: #ffe36b;
     --color-wrong: #cccccc;
 
+    --font-regular: 1rem;
     --font-large: 2rem;
     --font-bold: 700;
     --font-opensans :'Open Sans', sans-serif;
@@ -10,6 +11,17 @@
 
 section{
     margin-bottom: 0.4em;
+}
+
+.game-message{
+    width: 400px;
+    height: 50px;
+    font-size: var(--font-regular);
+    font-size: var(--font-opensans);
+    line-height: 50px;
+    text-align: center;
+    background-color: var(--color-correct);
+    border-radius: 0.5em;
 }
 
 input:focus{
