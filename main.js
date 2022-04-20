@@ -19,20 +19,34 @@ const createNewLine = (index) =>{
     wordInputs[index].focus();
 }
 
+const removeLine = () => {
+    const wordInputs = document.querySelectorAll('.word-input');
+    for(let i = 0; i < 5; i++){
+        wordInputs[i].value='';
+    }
+}
+
+const gameResult = () => {
+    console.log("win!");
+}
+
 const onSubmitAnswer = () =>{
     let submitAnswer = [];
+    let correctCount = 0;
     const wordInputs = document.querySelectorAll('.word-input');
     wordInputs.forEach(wordInput =>{
         submitAnswer.push(wordInput.value);
     });
     if(!WORDS.includes(submitAnswer.join(''))){
         alert('올바른 단어를 입력해주세요');
+        removeLine();
         return;
     }
     for(let i = 0; i < 5; i++)
     {
         if(submitAnswer[i] === ANSWER[i]){
             wordInputs[i].classList.add("correct");
+            correctCount++;
         }
         else if(ANSWER.includes(submitAnswer[i])){
             wordInputs[i].classList.add("approached");
@@ -43,6 +57,10 @@ const onSubmitAnswer = () =>{
         wordInputs[i].removeEventListener('keyup', checkCharacter);
         wordInputs[i].setAttribute('disable', '');
         wordInputs[i].classList.remove('word-input');
+    }
+    if(correctCount === 5){
+        gameResult();
+        return;
     }
     if(count < MAX_COUNT)
     {
