@@ -30,6 +30,28 @@ const gameResult = () => {
     console.log("win!");
 }
 
+
+const keyboardColor = (value, status) => {
+    console.log(value);
+    for(let i = 0; i < wordInputButton.length; i++){
+        console.log(wordInputButton[i]);
+        if(wordInputButton[i].textContent === value){
+            
+            switch(status){
+                case 'correct' :
+                    wordInputButton[i].classList.add("correct");
+                    break;
+                case 'approached' :
+                    wordInputButton[i].classList.add("approached");
+                    break;
+                default :
+                wordInputButton[i].classList.add("wrong");
+                    break;
+            }
+        }
+    }
+}
+
 const onSubmitAnswer = () =>{
     let submitAnswer = [];
     let correctCount = 0;
@@ -46,13 +68,16 @@ const onSubmitAnswer = () =>{
     {
         if(submitAnswer[i] === ANSWER[i]){
             wordInputs[i].classList.add("correct");
+            keyboardColor(submitAnswer[i], 'correct');
             correctCount++;
         }
         else if(ANSWER.includes(submitAnswer[i])){
             wordInputs[i].classList.add("approached");
+            keyboardColor(submitAnswer[i], 'approached');
         }
         else{
             wordInputs[i].classList.add("wrong");
+            keyboardColor(submitAnswer[i], 'wrong');
         }
         wordInputs[i].removeEventListener('keyup', checkCharacter);
         wordInputs[i].setAttribute('disable', '');
@@ -70,12 +95,19 @@ const onSubmitAnswer = () =>{
     submitAnswer=[];
 }
 
+
+
+const deleteCharacter = (target) => {
+    console.log(target);
+    target.focus();
+    target.textContent='';
+}
+
 const checkCharacter = (event) => {
 
     event.preventDefault();
-        console.log(event);
         if(event.keyCode === 8){
-            event.target.previousElementSibling.focus();
+            deleteCharacter(event.target.previousElementSibling);
         }
         else if(event.keyCode !== 16){
             event.target.nextElementSibling.focus();
@@ -85,16 +117,33 @@ const checkCharacter = (event) => {
 wordInputButton.forEach(wordInput =>{
     wordInput.addEventListener('click', (event)=>{
         const wordInputs = document.querySelectorAll('.word-input');
-        console.log(wordInputs);
+        let currentIndex;
         for(let i = 0; i < wordInputs.length; i++){
-            console.log(wordInputs[i].value);
-           if(wordInputs[i].value == ''){
-            console.log('true!');
-                wordInputs[i].value = event.target.textContent;
+            if(wordInputs[i].value == ''){
+                console.log(`index=${i}`);
+                currentIndex = i;
+                console.log(currentIndex);
                 break;
-           }
-           
+            }
+            else if(wordInputs[4].value !== ''){
+                console.log('four');
+                currentIndex = 4;
+                break;
+            }
         }
+        if(event.target.textContent !== "삭제" && event.target.textContent !== "확인"){
+            wordInputs[currentIndex].value = event.target.textContent;
+            }
+        else if(event.target.textContent == "삭제"){
+            console.log(currentIndex);
+                if(currentIndex === 4 && wordInputs[4].value !== ''){
+                    wordInputs[currentIndex].value='';
+                }
+                else{
+                    wordInputs[currentIndex-1].value='';
+                    currentIndex--;  
+                }
+           }
     })
 })
 
